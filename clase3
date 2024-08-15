@@ -1,0 +1,200 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class Student {
+    private String nombre;
+    private double nota;
+
+    public Student(String nombre, double nota) {
+        this.nombre = nombre;
+        this.nota = nota;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public double getNota() {
+        return nota;
+    }
+
+    public void setNombre(String nombre){
+        this.nombre = nombre;
+    }
+}
+
+class StudentManager {
+    private List<Student> students = new ArrayList<>();
+
+    public void addStudent(String nombre, double nota) {
+        Student estudiante1 = new Student(nombre, nota);
+        students.add(estudiante1);
+
+        students.add(new Student(nombre, nota));
+    }
+
+    public void displayStudents() {
+        for (Student student : students) {
+            System.out.println("Nombre: " + student.getNombre() + " Nota: " + student.getNota());
+        }
+    }
+
+    public Student getStudentWithHighestGrade() {
+        Student highestGradeStudent = null;
+        double highestGrade = 0;
+
+        for (Student student : students) {
+            if (student.getNota() > highestGrade) {
+                highestGrade = student.getNota();
+                highestGradeStudent = student;
+            }
+        }
+
+        return highestGradeStudent;
+    }
+
+    public Student getStudentWithLowestGrade() {
+        Student lowestGradeStudent = null;
+        double lowestGrade = Double.MAX_VALUE; // Initialize with a high value
+
+        for (Student student : students) {
+            if (student.getNota() < lowestGrade) {
+                lowestGrade = student.getNota();
+                lowestGradeStudent = student;
+            }
+        }
+
+        return lowestGradeStudent;
+    }
+
+    public double findStudentByName(String name) {
+        for (Student student : students) {
+            if (student.getNombre().equals(name)) {
+                return student.getNota();
+            }
+        }
+        return -1;
+    }
+
+    public void saveStudentsToFile(String filename) {
+        try {
+            FileWriter file = new FileWriter(filename);
+            PrintWriter writer = new PrintWriter(file);
+
+            for (Student student : students) {
+                writer.println(student.getNombre() + " " + student.getNota());
+            }
+
+            writer.close();
+            System.out.println("Lista de estudiantes guardada exitosamente en " + filename);
+        } catch (Exception e) {
+            System.out.println("Error al guardar la lista de estudiantes: " + e.getMessage());
+        }
+    }
+
+    public void readStudentsFromFile(String filename) {
+        try {
+            FileReader file = new FileReader(filename);
+            BufferedReader reader = new BufferedReader(file);
+
+            String line = reader.readLine();
+
+
+            while (line != null) {
+                String[] parts = line.split(" ");
+                String nombre = parts[0];
+                double nota = Double.parseDouble(parts[1]);
+                addStudent(nombre, nota);
+                line = reader.readLine();
+            }
+
+            reader.close();
+            System.out.println("Lista de estudiantes leída exitosamente desde " + filename);
+        } catch (Exception e) {
+            System.out.println("Error al leer la lista de estudiantes: " + e.getMessage());
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        StudentManager studentManager = new StudentManager();
+        int opcion = 0;
+
+        while (opcion != 8) {
+            System.out.println("Seleccione la opción que desea realizar: ");
+
+            System.out.println("1. Ingresar estudiante");
+            System.out.println("2. Mostrar estudiantes");
+            System.out.println("3. Mostrar estudiante con mayor nota");
+            System.out.println("4. Guardar estudiantes en archivo");
+            System.out.println("5. Leer estudiantes de archivo");
+            System.out.println("6. Buscar estudiante por nombre");
+            System.out.println("7. Mostrar estudiante con menor nota");
+            System.out.println("8. Salir");
+
+            opcion = scanner.nextInt();
+            scanner.nextLine();
+
+            System.out.println("Opción seleccionada: " + opcion);
+
+            if (opcion == 1) {
+                System.out.println("Ingrese el nombre del estudiante: ");
+
+                String nombre = scanner.next();
+                scanner.nextLine();
+                System.out.println("Ingrese la nota del estudiante: ");
+                double nota = scanner.nextDouble();
+                scanner.nextLine();
+
+                studentManager.addStudent(nombre, nota); 
+
+            } else if (opcion == 2) {
+                studentManager.displayStudents();
+
+            } else if (opcion == 3) {
+                Student highestGradeStudent = studentManager.getStudentWithHighestGrade();
+                if (highestGradeStudent != null) {
+                    System.out.println("El estudiante con mayor nota es: " + highestGradeStudent.getNombre() + 
+                                       " con una nota de " + highestGradeStudent.getNota());
+                } else {
+                    System.out.println("No hay estudiantes registrados.");
+                }
+
+            } else if (opcion == 4) {
+                studentManager.saveStudentsToFile("students.txt");
+
+            } else if (opcion == 5) {
+                studentManager.readStudentsFromFile("students.txt");
+
+            } else if (opcion == 6) {
+                System.out.println("Ingrese el nombre del estudiante a buscar:");
+                String nombreBuscado = scanner.nextLine();
+                double notaEncontrada = studentManager.findStudentByName(nombreBuscado);
+                if (notaEncontrada != -1) {
+                    System.out.println("La nota de " + nombreBuscado + " es: " + notaEncontrada);
+                } else {
+                    System.out.println("Estudiante no encontrado.");
+                }
+
+            } else if (opcion == 7) {
+                Student lowestGradeStudent = studentManager.getStudentWithLowestGrade();
+                if (lowestGradeStudent != null) {
+                    System.out.println("El estudiante con menor nota es: " + lowestGradeStudent.getNombre() +
+                                       " con una nota de " + lowestGradeStudent.getNota());
+                } else {
+                    System.out.println("No hay estudiantes registrados.");
+                }
+
+            } else if (opcion == 8) {
+                System.out.println("Saliendo del programa");
+            }
+        }
+    }
+}
