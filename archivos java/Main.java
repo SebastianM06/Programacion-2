@@ -45,7 +45,7 @@ public class Main {
         }
     }
 
-    // Clase interna Hotel
+   
     static class Hotel {
         private ArrayList<Habitacion> habitaciones;
 
