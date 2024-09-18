@@ -24,7 +24,6 @@ public class HotelAppSwing extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // Crear la interfaz gráfica
         textArea = new JTextArea();
         textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textArea);
