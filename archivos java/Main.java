@@ -3,10 +3,10 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
-    // Clase interna Habitacion
+  
     static class Habitacion {
         private int numero;
-        private String tipo; // "simple", "doble", "suite"
+        private String tipo; 
         private boolean ocupada;
 
         public Habitacion(int numero, String tipo) {
@@ -116,7 +116,7 @@ public class Main {
             int opcion;
             try {
                 opcion = scanner.nextInt();
-                scanner.nextLine(); // Limpiar el buffer
+                scanner.nextLine(); 
 
                 switch (opcion) {
                     case 1:
@@ -140,7 +140,7 @@ public class Main {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Entrada inválida. Por favor, ingrese un número.");
-                scanner.next(); // Limpiar el buffer
+                scanner.next(); 
             }
         }
     }
@@ -148,7 +148,7 @@ public class Main {
     private static void registrarHabitacion(Hotel hotel, Scanner scanner) {
         System.out.print("Ingrese el número de habitación: ");
         int numero = scanner.nextInt();
-        scanner.nextLine(); // Limpiar el buffer
+        scanner.nextLine(); 
 
         System.out.print("Ingrese el tipo de habitación (simple, doble, suite): ");
         String tipo = scanner.nextLine().toLowerCase();
@@ -164,7 +164,7 @@ public class Main {
     private static void reservarHabitacion(Hotel hotel, Scanner scanner) {
         System.out.print("Ingrese el número de habitación a reservar: ");
         int numero = scanner.nextInt();
-        scanner.nextLine(); // Limpiar el buffer
+        scanner.nextLine(); 
 
         boolean exito = hotel.reservarHabitacion(numero);
         if (exito) {
@@ -177,7 +177,7 @@ public class Main {
     private static void liberarHabitacion(Hotel hotel, Scanner scanner) {
         System.out.print("Ingrese el número de habitación a liberar: ");
         int numero = scanner.nextInt();
-        scanner.nextLine(); // Limpiar el buffer
+        scanner.nextLine(); 
 
         boolean exito = hotel.liberarHabitacion(numero);
         if (exito) {
