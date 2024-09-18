@@ -1,0 +1,71 @@
+import java.util.Scanner;
+
+
+public class gestionEstudiantes{
+    public static String[] nombres = new String[10];
+    public static double[] notas = new double[10];
+    
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        
+
+        int opcion = 0;
+        int contador = 0;
+
+        while(opcion != 4){
+            System.out.println("Seleccione la opción que desea realizar: ");
+
+            System.out.println("1. Ingresar estudiante");
+            System.out.println("2. Mostrar estudiantes");
+            System.out.println("3. Mostrar estudiante con mayor nota");
+            System.out.println("4. Salir");
+
+            opcion = scanner.nextInt();
+            scanner.nextLine();
+            
+            System.out.println("Opción seleccionada: " + opcion);
+
+            if(opcion == 1){
+                System.out.println("Ingrese el nombre del estudiante: ");
+                
+                String nombre = scanner.next();
+                scanner.nextLine();
+                System.out.println("Ingrese la nota del estudiante: ");
+                double nota = scanner.nextDouble();
+                scanner.nextLine();
+
+                nombres[contador] = nombre;
+                notas[contador] = nota;
+
+                contador++;
+
+            }else if(opcion == 2){
+                for(int i = 0; i < contador; i++){
+                    System.out.println("Nombre: " + nombres[i] + " Nota: " + notas[i]);
+                }
+            }else if(opcion == 3){
+                System.out.println("El estudiante con mayor nota es: " + estudiante_mayor_nota());
+            }
+
+
+        }
+
+
+    }
+
+    public static String estudiante_mayor_nota(){
+        double nota_mayor = 0;
+        int indice = 0;
+
+        for(int i = 0; i < notas.length; i ++){
+            if(notas[i] > nota_mayor){
+                nota_mayor = notas[i];
+                indice = i;    
+            }
+        }
+
+        return nombres[indice];
+    }
+}
+
